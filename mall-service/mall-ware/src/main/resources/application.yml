@@ -1,0 +1,54 @@
+server:
+  port: 8103
+
+spring:
+  application:
+    name: mall-ware
+  config:
+    import: classpath:mall-common.yml
+  cloud:
+    nacos:
+      server-addr: ${NACOS_ADDR:127.0.0.1:8848}
+      discovery:
+        namespace: ${NACOS_NAMESPACE:public}
+        group: MALL_CLOUD
+      config:
+        import-check:
+          enabled: false
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # Seata AT 必须由 Seata 代理数据源；关闭自动代理会导致回滚失效
+    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/mall_ware?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:root}
+    hikari:
+      minimum-idle: 2
+      maximum-pool-size: 10
+
+mall:
+  swagger:
+    title: mall-ware 库存服务
+    description: 锁定/解锁/实扣、库存流水
+
+feign:
+  sentinel:
+    enabled: true
+
+seata:
+  enabled: true
+  application-id: mall-ware
+  tx-service-group: mall_tx_group
+  enable-auto-data-source-proxy: true
+  service:
+    vgroup-mapping:
+      mall_tx_group: default
+  registry:
+    type: nacos
+    nacos:
+      server-addr: ${NACOS_ADDR:127.0.0.1:8848}
+      group: SEATA_GROUP
+      application: seata-server
+      username: ${NACOS_USERNAME:nacos}
+      password: ${NACOS_PASSWORD:nacos}
+  config:
+    type: file

@@ -1,0 +1,17 @@
+# 统一换行符：源码保持 LF，Windows 脚本保持 CRLF
+* text=auto eol=lf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# 二进制/归档
+*.jar binary
+*.zip binary
+*.png binary
+*.jpg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+
+# 让 GitHub 语言统计不把 SQL 脚本算成主语言
+docs/sql/*.sql linguist-documentation

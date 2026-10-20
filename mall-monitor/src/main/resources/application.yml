@@ -1,0 +1,29 @@
+server:
+  port: 8301
+
+spring:
+  application:
+    name: mall-monitor
+  cloud:
+    nacos:
+      server-addr: ${NACOS_ADDR:127.0.0.1:8848}
+      discovery:
+        namespace: ${NACOS_NAMESPACE:public}
+        group: MALL_CLOUD
+      config:
+        import-check:
+          enabled: false
+  boot:
+    admin:
+      # 通过注册中心自动发现实例，无需手工登记
+      discovery:
+        ignored-services: mall-monitor
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

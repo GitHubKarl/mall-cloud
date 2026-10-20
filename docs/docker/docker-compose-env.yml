@@ -1,0 +1,105 @@
+# ============================================================
+# mall-cloud 本地基础设施（开发环境一键启动）
+# 启动：docker compose -f docs/docker/docker-compose-env.yml up -d
+# 关闭：docker compose -f docs/docker/docker-compose-env.yml down
+# 注意：仅用于本地开发，密码全部为弱口令，禁止用于生产
+# ============================================================
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:8.0.36
+    container_name: mall-mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      TZ: Asia/Shanghai
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_general_ci
+      - --default-time-zone=+08:00
+      - --lower_case_table_names=1
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+      # 首次启动自动执行建库脚本，脚本按文件名排序
+      - ../sql:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: mall-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - ./redis-data:/data
+
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: mall-rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - ./rabbitmq-data:/var/lib/rabbitmq
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.3
+    container_name: mall-es
+    restart: always
+    ports:
+      - "9200:9200"
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./es-data:/usr/share/elasticsearch/data
+
+  nacos:
+    image: nacos/nacos-server:v2.4.3
+    container_name: mall-nacos
+    restart: always
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+    environment:
+      MODE: standalone
+      NACOS_AUTH_ENABLE: "false"
+      JVM_XMS: 512m
+      JVM_XMX: 512m
+      TZ: Asia/Shanghai
+
+  seata-server:
+    image: seataio/seata-server:2.1.0
+    container_name: mall-seata
+    restart: always
+    ports:
+      - "8091:8091"
+      - "7091:7091"
+    environment:
+      # 注册到同一个 Nacos，事务分组 mall_tx_group 需与各服务 yml 保持一致
+      SEATA_PORT: 8091
+      STORE_MODE: file
+      CONSOLE_PORT: 7091
+    depends_on:
+      - nacos
+
+  sentinel-dashboard:
+    image: bladex/sentinel-dashboard:1.8.8
+    container_name: mall-sentinel
+    restart: always
+    ports:
+      - "8858:8858"

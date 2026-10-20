@@ -1,0 +1,26 @@
+server:
+  port: 8106
+
+spring:
+  application:
+    name: mall-cart
+  config:
+    import: classpath:mall-common.yml
+  cloud:
+    nacos:
+      server-addr: ${NACOS_ADDR:127.0.0.1:8848}
+      discovery:
+        namespace: ${NACOS_NAMESPACE:public}
+        group: MALL_CLOUD
+      config:
+        import-check:
+          enabled: false
+
+mall:
+  swagger:
+    title: mall-cart 购物车服务
+    description: 纯 Redis 存储，价格与库存实时回源
+
+feign:
+  sentinel:
+    enabled: true

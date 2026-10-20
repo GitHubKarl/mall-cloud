@@ -1,0 +1,16 @@
+target/
+!.mvn/wrapper/maven-wrapper.jar
+*.class
+*.log
+*.tar.gz
+*.zip
+logs/
+.idea/
+*.iml
+*.iws
+.vscode/
+.DS_Store
+Thumbs.db
+*.pid
+.workbuddy/
+.workbuddy

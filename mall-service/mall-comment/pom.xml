@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.mallcloud</groupId>
+        <artifactId>mall-service</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>mall-comment</artifactId>
+    <name>mall-comment</name>
+    <description>评价服务：订单评价、追评、商家回复、评分统计。数据库 mall_comment</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.mallcloud</groupId>
+            <artifactId>common-mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.mallcloud</groupId>
+            <artifactId>api-comment</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.mallcloud</groupId>
+            <artifactId>api-order</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.mallcloud</groupId>
+            <artifactId>api-product</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.mallcloud</groupId>
+            <artifactId>api-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <skip>false</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

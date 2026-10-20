@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.mallcloud</groupId>
+        <artifactId>mall-cloud</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>mall-admin</artifactId>
+    <name>mall-admin</name>
+    <description>后台管理 BFF：管理员登录与 RBAC、跨服务聚合查询。
+        自身不直接读写业务库（仅 mall_admin 库保存管理员账号）</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.mallcloud</groupId>
+            <artifactId>common-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.mallcloud</groupId>
+            <artifactId>common-mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.mallcloud</groupId>
+            <artifactId>common-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.mallcloud</groupId>
+            <artifactId>common-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.mallcloud</groupId>
+            <artifactId>common-swagger</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.mallcloud</groupId>
+            <artifactId>common-feign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.mallcloud</groupId>
+            <artifactId>api-product</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.mallcloud</groupId>
+            <artifactId>api-order</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.mallcloud</groupId>
+            <artifactId>api-search</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.mallcloud</groupId>
+            <artifactId>api-comment</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.mallcloud</groupId>
+            <artifactId>api-ware</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-crypto</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <skip>false</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

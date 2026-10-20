@@ -1,0 +1,34 @@
+server:
+  port: 8110
+
+spring:
+  application:
+    name: mall-notice
+  config:
+    import: classpath:mall-common.yml
+  cloud:
+    nacos:
+      server-addr: ${NACOS_ADDR:127.0.0.1:8848}
+      discovery:
+        namespace: ${NACOS_NAMESPACE:public}
+        group: MALL_CLOUD
+      config:
+        import-check:
+          enabled: false
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/mall_notice?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:root}
+    hikari:
+      minimum-idle: 2
+      maximum-pool-size: 10
+
+mall:
+  swagger:
+    title: mall-notice 通知服务
+    description: 站内信/短信/邮件，模板渲染
+
+feign:
+  sentinel:
+    enabled: true

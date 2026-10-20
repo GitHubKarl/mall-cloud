@@ -1,0 +1,99 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: mall-gateway
+  main:
+    web-application-type: reactive
+  config:
+    import: classpath:mall-common.yml
+  cloud:
+    nacos:
+      server-addr: ${NACOS_ADDR:127.0.0.1:8848}
+      discovery:
+        namespace: ${NACOS_NAMESPACE:public}
+        group: MALL_CLOUD
+      config:
+        import-check:
+          enabled: false
+    gateway:
+      # 关闭自动路由：所有对外路径必须显式声明，避免服务误暴露
+      discovery:
+        locator:
+          enabled: false
+      routes:
+        - id: mall-user
+          uri: lb://mall-user
+          predicates:
+            - Path=/user/**
+        - id: mall-product
+          uri: lb://mall-product
+          predicates:
+            - Path=/product/**
+        - id: mall-ware
+          uri: lb://mall-ware
+          predicates:
+            - Path=/ware/**
+        - id: mall-order
+          uri: lb://mall-order
+          predicates:
+            - Path=/order/**
+        - id: mall-payment
+          uri: lb://mall-payment
+          predicates:
+            - Path=/payment/**
+        - id: mall-cart
+          uri: lb://mall-cart
+          predicates:
+            - Path=/cart/**
+        - id: mall-coupon
+          uri: lb://mall-coupon
+          predicates:
+            - Path=/coupon/**
+        - id: mall-search
+          uri: lb://mall-search
+          predicates:
+            - Path=/search/**
+        - id: mall-comment
+          uri: lb://mall-comment
+          predicates:
+            - Path=/comment/**
+        - id: mall-notice
+          uri: lb://mall-notice
+          predicates:
+            - Path=/notice/**
+        - id: mall-admin
+          uri: lb://mall-admin
+          predicates:
+            - Path=/admin/**
+
+mall:
+  gateway:
+    auth-enabled: true
+    white-list:
+      - /user/auth/login
+      - /user/auth/register
+      - /user/auth/refresh
+      - /product/public/**
+      - /search/public/**
+      - /comment/public/**
+      - /ware/public/**
+      - /payment/callback/**
+      - /admin/auth/login
+      - /admin/auth/refresh
+      - /actuator/**
+      - /doc.html
+      - /v3/api-docs/**
+      - /swagger-ui/**
+      - /webjars/**
+    deny-list:
+      - /**/inner/**
+
+feign:
+  sentinel:
+    enabled: true
+
+logging:
+  level:
+    org.springframework.cloud.gateway: info

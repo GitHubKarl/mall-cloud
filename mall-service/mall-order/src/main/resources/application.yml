@@ -1,0 +1,60 @@
+server:
+  port: 8104
+
+spring:
+  application:
+    name: mall-order
+  config:
+    import: classpath:mall-common.yml
+  cloud:
+    nacos:
+      server-addr: ${NACOS_ADDR:127.0.0.1:8848}
+      discovery:
+        namespace: ${NACOS_NAMESPACE:public}
+        group: MALL_CLOUD
+      config:
+        import-check:
+          enabled: false
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/mall_order?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:root}
+    hikari:
+      minimum-idle: 2
+      maximum-pool-size: 20
+
+mall:
+  swagger:
+    title: mall-order 订单服务
+    description: 交易核心，Seata 全局事务，支付结果 MQ 驱动
+
+feign:
+  sentinel:
+    enabled: true
+  client:
+    config:
+      # 下单链路涉及多次 RPC，读超时放宽
+      default:
+        connect-timeout: 3000
+        read-timeout: 15000
+
+seata:
+  enabled: true
+  application-id: mall-order
+  tx-service-group: mall_tx_group
+  enable-auto-data-source-proxy: true
+  # 全局事务超时时间需小于 Feign 读超时之和，避免事务还没回滚调用方就已超时
+  service:
+    vgroup-mapping:
+      mall_tx_group: default
+  registry:
+    type: nacos
+    nacos:
+      server-addr: ${NACOS_ADDR:127.0.0.1:8848}
+      group: SEATA_GROUP
+      application: seata-server
+      username: ${NACOS_USERNAME:nacos}
+      password: ${NACOS_PASSWORD:nacos}
+  config:
+    type: file

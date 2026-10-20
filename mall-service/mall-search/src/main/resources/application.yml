@@ -1,0 +1,32 @@
+server:
+  port: 8108
+
+spring:
+  application:
+    name: mall-search
+  config:
+    import: classpath:mall-common.yml
+  cloud:
+    nacos:
+      server-addr: ${NACOS_ADDR:127.0.0.1:8848}
+      discovery:
+        namespace: ${NACOS_NAMESPACE:public}
+        group: MALL_CLOUD
+      config:
+        import-check:
+          enabled: false
+  elasticsearch:
+    uris: http://${ES_HOST:127.0.0.1}:9200
+    username: ${ES_USERNAME:}
+    password: ${ES_PASSWORD:}
+    connection-timeout: 3s
+    socket-timeout: 30s
+
+mall:
+  swagger:
+    title: mall-search 搜索服务
+    description: ES 索引维护与关键词检索
+
+feign:
+  sentinel:
+    enabled: true

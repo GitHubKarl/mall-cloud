@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.mallcloud</groupId>
+        <artifactId>mall-cloud</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>mall-api</artifactId>
+    <packaging>pom</packaging>
+    <name>mall-api</name>
+    <description>服务间契约层：Feign 接口 + 跨服务 DTO + MQ 事件。只放接口与数据结构，禁止出现实现与业务逻辑</description>
+
+    <modules>
+        <module>api-common</module>
+        <module>api-user</module>
+        <module>api-product</module>
+        <module>api-ware</module>
+        <module>api-order</module>
+        <module>api-payment</module>
+        <module>api-cart</module>
+        <module>api-coupon</module>
+        <module>api-search</module>
+        <module>api-comment</module>
+        <module>api-notice</module>
+    </modules>
+</project>

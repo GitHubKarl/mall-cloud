@@ -1,0 +1,53 @@
+server:
+  port: 8107
+
+spring:
+  application:
+    name: mall-coupon
+  config:
+    import: classpath:mall-common.yml
+  cloud:
+    nacos:
+      server-addr: ${NACOS_ADDR:127.0.0.1:8848}
+      discovery:
+        namespace: ${NACOS_NAMESPACE:public}
+        group: MALL_CLOUD
+      config:
+        import-check:
+          enabled: false
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/mall_coupon?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:root}
+    hikari:
+      minimum-idle: 2
+      maximum-pool-size: 10
+
+mall:
+  swagger:
+    title: mall-coupon 优惠券服务
+    description: 券模板、领取、核销、退回
+
+feign:
+  sentinel:
+    enabled: true
+
+seata:
+  enabled: true
+  application-id: mall-coupon
+  tx-service-group: mall_tx_group
+  enable-auto-data-source-proxy: true
+  service:
+    vgroup-mapping:
+      mall_tx_group: default
+  registry:
+    type: nacos
+    nacos:
+      server-addr: ${NACOS_ADDR:127.0.0.1:8848}
+      group: SEATA_GROUP
+      application: seata-server
+      username: ${NACOS_USERNAME:nacos}
+      password: ${NACOS_PASSWORD:nacos}
+  config:
+    type: file

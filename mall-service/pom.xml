@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.mallcloud</groupId>
+        <artifactId>mall-cloud</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>mall-service</artifactId>
+    <packaging>pom</packaging>
+    <name>mall-service</name>
+    <description>业务微服务聚合。公共依赖在此统一声明，子模块按需补充（如 cart/search 不引 mybatis）</description>
+
+    <modules>
+        <module>mall-user</module>
+        <module>mall-product</module>
+        <module>mall-ware</module>
+        <module>mall-order</module>
+        <module>mall-payment</module>
+        <module>mall-cart</module>
+        <module>mall-coupon</module>
+        <module>mall-search</module>
+        <module>mall-comment</module>
+        <module>mall-notice</module>
+    </modules>
+
+    <dependencies>
+        <!-- 公共能力 -->
+        <dependency>
+            <groupId>com.mallcloud</groupId>
+            <artifactId>common-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.mallcloud</groupId>
+            <artifactId>common-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.mallcloud</groupId>
+            <artifactId>common-swagger</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.mallcloud</groupId>
+            <artifactId>common-feign</artifactId>
+        </dependency>
+
+        <!-- 注册中心 / 配置中心 / 限流 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+    </dependencies>
+</project>

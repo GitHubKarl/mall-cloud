@@ -1,0 +1,32 @@
+server:
+  port: 8300
+
+spring:
+  application:
+    name: mall-job
+  config:
+    import: classpath:mall-common.yml
+  cloud:
+    nacos:
+      server-addr: ${NACOS_ADDR:127.0.0.1:8848}
+      discovery:
+        namespace: ${NACOS_NAMESPACE:public}
+        group: MALL_CLOUD
+      config:
+        import-check:
+          enabled: false
+
+# XXL-Job 执行器：调度中心地址按环境注入
+xxl:
+  job:
+    admin-addresses: ${XXL_JOB_ADMIN:http://127.0.0.1:8088/xxl-job-admin}
+    access-token: ${XXL_JOB_TOKEN:default_token}
+    app-name: mall-job
+    ip: ${XXL_JOB_IP:}
+    port: 9999
+    log-path: ./logs/xxl-job
+    log-retention-days: 30
+
+feign:
+  sentinel:
+    enabled: true
